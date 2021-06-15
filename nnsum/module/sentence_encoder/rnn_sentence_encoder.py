@@ -70,7 +70,7 @@ class RNNSentenceEncoder(nn.Module):
     def forward(self, inputs, word_count):
 
         packed_input = nn.utils.rnn.pack_padded_sequence(
-            inputs, word_count, batch_first=True)
+            inputs, word_count.cpu(), batch_first=True)
         packed_output, encoder_state = self.rnn(packed_input)
         output, _ = nn.utils.rnn.pad_packed_sequence(
             packed_output, batch_first=True)

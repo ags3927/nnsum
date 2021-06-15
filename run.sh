@@ -1,0 +1,16 @@
+python script_bin/train_model.py \
+    --trainer --train-inputs /home/ags/academics/thesis/nnsum/data/ridmik/inputs/train\
+              --train-labels /home/ags/academics/thesis/nnsum/data/ridmik/labels/train \
+              --valid-inputs /home/ags/academics/thesis/nnsum/data/ridmik/inputs/valid \
+              --valid-labels /home/ags/academics/thesis/nnsum/data/ridmik/labels/valid \
+              --valid-refs /home/ags/academics/thesis/nnsum/data/ridmik/human-abstracts/valid \
+              --weighted \
+              --batch-size 16 \
+              --epochs 10 \
+              --gpu 0 \
+              --seed 12345678 \
+              --model /home/ags/academics/thesis/nnsum/output/models/model \
+              --results /home/ags/academics/thesis/nnsum/output/results/results.json \
+    --emb --update-rule update-all\
+    --enc rnn \
+    --ext sr

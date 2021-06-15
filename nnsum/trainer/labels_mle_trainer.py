@@ -5,7 +5,7 @@ import torch
 import torch.nn.functional as F
 
 from ignite.engine import Engine, Events
-from ignite._utils import _to_hours_mins_secs
+# from ignite._utils import _to_hours_mins_secs
 from ignite.handlers import ModelCheckpoint
 
 from nnsum.metrics import Loss, PerlRouge
@@ -140,10 +140,10 @@ def labels_mle_trainer(model, optimizer, train_dataloader,
         valid_history["rouge-1"].append(valid_metrics["rouge"]["rouge-1"])
         valid_history["rouge-2"].append(valid_metrics["rouge"]["rouge-2"])
 
-        hrs, mins, secs = _to_hours_mins_secs(
-            time.time() - trainer.state.start_time)
-        print("Epoch[{}] Time Taken: {:02.0f}:{:02.0f}:{:02.0f}".format(
-            trainer.state.epoch, hrs, mins, secs))
+        # hrs, mins, secs = _to_hours_mins_secs(
+        #     time.time() - trainer.state.start_time)
+        # print("Epoch[{}] Time Taken: {:02.0f}:{:02.0f}:{:02.0f}".format(
+        #     trainer.state.epoch, hrs, mins, secs))
 
         print()
 
