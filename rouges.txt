@@ -1,0 +1,5 @@
+Average rouge-1 score = 0.631222899789113
+
+Average rouge-2 score = 0.5769927081375861
+
+Average rouge-l score = 0.6228300895852809
