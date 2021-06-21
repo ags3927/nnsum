@@ -123,7 +123,7 @@ class SummarizationModel(nn.Module):
         logits = self.forward(input, mask_logits=True)
         batch_size = logits.size(0)
         _, indices = torch.sort(logits, 1, descending=True)
-
+        all_ids = []
         all_pos = []
         all_text = []
         for b in range(batch_size):
@@ -141,11 +141,12 @@ class SummarizationModel(nn.Module):
                     break
             all_pos.append(pos)
             all_text.append(text)
+            all_ids.append(input.id[b])
 
         if return_indices:
-            return all_text, all_pos
+            return all_text, all_pos, all_ids
         else:
-            return all_text
+            return all_text, all_ids
 
     def initialize_parameters(self, logger=None):
         if logger:

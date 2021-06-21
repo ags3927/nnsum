@@ -1,6 +1,7 @@
 import argparse
 import pathlib
 import ujson as json
+import json as original_json
 
 import torch
 import nnsum
@@ -35,6 +36,7 @@ def main():
 
     print("Loading model...", end="", flush=True)
     model = torch.load(args.model, map_location=lambda storage, loc: storage)
+    # model = torch.load(args.model)
     if args.gpu > -1:
         model.cuda(args.gpu)
     vocab = model.embeddings.vocab
@@ -48,6 +50,7 @@ def main():
     loader = nnsum.data.SummarizationDataLoader(
         data, batch_size=args.batch_size, num_workers=args.loader_workers)
 
+    gen_summary_path = '/home/ags/academics/thesis/nnsum/output/summaries'
     ids = []
     path_data = []
     model.eval()
@@ -58,8 +61,17 @@ def main():
                 print("generating summaries {} / {} ...".format(
                         step, len(loader)),
                     end="\r" if step < len(loader) else "\n", flush=True)
-                texts = model.predict(batch, max_length=args.summary_length)
+                texts, doc_ids = model.predict(batch, max_length=args.summary_length)
                 
+                for idx, doc_id in enumerate(doc_ids):
+                    with open(gen_summary_path + '/' + str(doc_id) + '.json', 'w', encoding='utf8') as f:
+                        original_json.dump({
+                            'id': doc_id,
+                            'summary': texts[idx]
+                        }, f, ensure_ascii=False)
+                        
+                
+                    
                 for text, ref_paths in zip(texts, batch.reference_paths):
                     summary = "\n".join(text)                
                     summary_path = manager.create_temp_file(summary)

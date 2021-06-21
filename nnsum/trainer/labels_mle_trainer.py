@@ -157,6 +157,7 @@ def labels_mle_trainer(model, optimizer, train_dataloader,
 
 
     if model_path:
+        torch.save(model, model_path)
         checkpoint = create_checkpoint(model_path)
         trainer.add_event_handler(
             Events.EPOCH_COMPLETED, checkpoint, {"model": model})
